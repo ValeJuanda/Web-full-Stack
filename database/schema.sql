@@ -26,7 +26,8 @@ CREATE TABLE Curso (
     id_curso INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     id_profesor INT,
-    FOREIGN KEY (id_profesor) REFERENCES Profesor(id_profesor)
+    -- Al borrar un profesor se pone NULL en los cursos que tenía asignados
+    FOREIGN KEY (id_profesor) REFERENCES Profesor(id_profesor) ON DELETE SET NULL
 );
 
 CREATE TABLE Aula (
@@ -41,8 +42,10 @@ CREATE TABLE Asignaturas (
     horas_semana INT,
     id_profesor INT,
     id_curso INT,
-    FOREIGN KEY (id_profesor) REFERENCES Profesor(id_profesor),
-    FOREIGN KEY (id_curso) REFERENCES Curso(id_curso)
+    -- Al borrar un profesor se pone NULL en sus asignaturas
+    FOREIGN KEY (id_profesor) REFERENCES Profesor(id_profesor) ON DELETE SET NULL,
+    -- Al borrar un curso se pone NULL en sus asignaturas
+    FOREIGN KEY (id_curso) REFERENCES Curso(id_curso) ON DELETE SET NULL
 );
 
 CREATE TABLE Estudiante (
@@ -63,8 +66,10 @@ CREATE TABLE Matricula (
     nota DECIMAL(4,2),
     incidencias TEXT,
     PRIMARY KEY (id_estudiante, id_asignatura),
-    FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id_estudiante),
-    FOREIGN KEY (id_asignatura) REFERENCES Asignaturas(id_asignatura)
+    -- Al borrar un estudiante se borran sus matrículas automáticamente
+    FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id_estudiante) ON DELETE CASCADE,
+    -- Al borrar una asignatura se borran sus matrículas automáticamente
+    FOREIGN KEY (id_asignatura) REFERENCES Asignaturas(id_asignatura) ON DELETE CASCADE
 );
 
 CREATE TABLE imparte_aula (
@@ -74,6 +79,8 @@ CREATE TABLE imparte_aula (
     dia VARCHAR(20),
     hora TIME,
     PRIMARY KEY (id_aula, id_asignatura, dia, hora),
-    FOREIGN KEY (id_aula) REFERENCES Aula(id_aula),
-    FOREIGN KEY (id_asignatura) REFERENCES Asignaturas(id_asignatura)
+    -- Al borrar un aula se borran sus horarios automáticamente
+    FOREIGN KEY (id_aula) REFERENCES Aula(id_aula) ON DELETE CASCADE,
+    -- Al borrar una asignatura se borran sus horarios automáticamente
+    FOREIGN KEY (id_asignatura) REFERENCES Asignaturas(id_asignatura) ON DELETE CASCADE
 );
