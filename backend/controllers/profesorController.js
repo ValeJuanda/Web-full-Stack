@@ -60,6 +60,8 @@ const eliminar = async (req, res) => {
         }
         res.status(200).json({ success: true, data: null, message: 'Profesor eliminado correctamente' });
     } catch (error) {
+        // Muestra el error exacto en la terminal del backend
+        console.error('Error al eliminar profesor:', error.message);
         res.status(500).json({ success: false, data: null, message: 'Error al eliminar profesor' });
     }
 };

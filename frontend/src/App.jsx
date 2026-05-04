@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard';
 import Estudiantes from './pages/Estudiantes';
 import Profesores from './pages/Profesores';
 import Registro from './pages/Registro';
+import Cursos from './pages/Cursos';
+
 
 function App() {
   return (
@@ -25,6 +27,12 @@ function App() {
           } />
           <Route path="/profesores" element={
             <RutaProtegida><Profesores /></RutaProtegida>
+          } />
+
+          <Route path="/cursos" element={
+            <RutaProtegida>
+              <Cursos />
+            </RutaProtegida>
           } />
 
           {/* Cualquier ruta no encontrada redirige al login */}
