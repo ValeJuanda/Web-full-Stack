@@ -14,8 +14,7 @@ app.use('/api/profesores', require('./routes/profesores'));
 app.use('/api/cursos', require('./routes/cursos'));
 app.use('/api/asignaturas', require('./routes/asignaturas'));
 app.use('/api/aulas', require('./routes/aulas'));
-
-
+app.use('/api/matriculas', require('./routes/matricula'));
 
 // ruta de prueba
 app.get('/', (req, res) => {
@@ -26,3 +25,5 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+

@@ -9,6 +9,7 @@ import Registro from './pages/Registro';
 import Cursos from './pages/Cursos';
 import Aulas from './pages/Aulas';
 import Asignaturas from './pages/Asignaturas';
+import Matriculas from './pages/matricula';
 
 
 function App() {
@@ -43,6 +44,11 @@ function App() {
           <Route path="/asignaturas" element={
             <RutaProtegida>
               <Asignaturas />
+            </RutaProtegida>
+          } />
+          <Route path="/matricula" element={
+            <RutaProtegida>
+              <Matriculas />
             </RutaProtegida>
           } />
 

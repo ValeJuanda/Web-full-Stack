@@ -120,11 +120,13 @@ const Dashboard = () => {
 
                         {/* Matrículas: todos los roles */}
                         <button
-                            onClick={() => navigate('/matriculas')}
+                            onClick={() => navigate('/matricula')}
                             className="bg-red-50 hover:bg-red-100 text-red-700 font-medium py-3 rounded-xl transition"
                         >
-                            Matrículas
+                            Matrícula
                         </button>
+
+                        
 
                         
 
