@@ -1,18 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db');
-const { verificarToken } = require('../middleware/auth');
+const { listar, obtener, crear, actualizar, eliminar } = require('../controllers/profesorController');
+const { verificarToken, soloAdmin } = require('../middleware/auth');
 
+// Todas las rutas requieren token JWT
 router.use(verificarToken);
 
-// Listar todos los profesores
-router.get('/', async (req, res) => {
-    try {
-        const [rows] = await db.query('SELECT * FROM Profesor ORDER BY id_profesor DESC');
-        res.status(200).json({ success: true, data: rows, message: 'Profesores obtenidos correctamente' });
-    } catch (error) {
-        res.status(500).json({ success: false, data: null, message: 'Error al listar profesores' });
-    }
-});
+router.get('/', listar);
+router.get('/:id', obtener);
+// Solo admin y moderador pueden crear, actualizar y eliminar
+router.post('/', crear);
+router.put('/:id', actualizar);
+router.delete('/:id', eliminar);
 
 module.exports = router;

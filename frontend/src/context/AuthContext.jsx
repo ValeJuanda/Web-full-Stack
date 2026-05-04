@@ -1,55 +1,50 @@
-import {createContext, useContext, useState} from 'react';
+import { createContext, useContext, useState } from 'react';
 
-// Crear el contecto de autenticación
-const AuthContext = createContext();
+// Exportamos AuthContext para que useAuth.js pueda importarlo directamente
+export const AuthContext = createContext();
 
-// Crear el proveedor de autenticación para toda la app
 export const AuthProvider = ({ children }) => {
+
     const [usuario, setUsuario] = useState(
-    localStorage.getItem('usuario') || null
-);
+        localStorage.getItem('usuario') || null
+    );
 
-// Esatdo del rol moderdor afmin usurio
-const [rol, setRol] = useState(
-    localStorage.getItem('rol') || null
-);
+    const [rol, setRol] = useState(
+        localStorage.getItem('rol') || null
+    );
 
-//Etsado de la imagen del usuario
-const [imagen, setImagen] = useState(
-    localStorage.getItem('imagen') || null
-);
+    const [imagen, setImagen] = useState(
+        localStorage.getItem('imagen') || null
+    );
 
-// Login exitoso
-const login = (datos) => {
-    localStorage.setItem('token', datos.token);
-    localStorage.setItem('usuario', datos.usuario);
-    localStorage.setItem('rol', datos.rol);
-    localStorage.setItem('imagen', datos.imagen);
+    // Login: guarda token y datos en localStorage y actualiza el estado
+    const login = (datos) => {
+        localStorage.setItem('token', datos.token);
+        localStorage.setItem('usuario', datos.usuario);
+        localStorage.setItem('rol', datos.rol);
+        localStorage.setItem('imagen', datos.imagen);
+        setUsuario(datos.usuario);
+        setRol(datos.rol);
+        setImagen(datos.imagen);
+    };
 
-    //Actualiza el estado de los componentes
-    setUsuario(datos.usuario);
-    setRol(datos.rol);
-    setImagen(datos.imagen);
-};
+    // Logout: limpia localStorage y resetea el estado
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('rol');
+        localStorage.removeItem('imagen');
+        setUsuario(null);
+        setRol(null);
+        setImagen(null);
+    };
 
-// Funcion cerrar sesion
-const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('rol');
-    localStorage.removeItem('imagen');
-   //Limpiamo el estado
-    setUsuario(null);
-    setRol(null);
-    setImagen(null);
-};
-
-// gUARDA los componentes con el probedor 
-return (
-    <AuthContext.Provider value={{ usuario, rol, imagen, login, logout }}>
-        {children}
-    </AuthContext.Provider>
+    return (
+        <AuthContext.Provider value={{ usuario, rol, imagen, login, logout }}>
+            {children}
+        </AuthContext.Provider>
     );
 };
 
+// Hook directo (alternativa a importar desde hooks/useAuth.js)
 export const useAuth = () => useContext(AuthContext);

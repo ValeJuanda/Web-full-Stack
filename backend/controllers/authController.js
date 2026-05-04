@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
+const Usuario = require('../models/usuarioModel');
 const jwt = require('jsonwebtoken');
-const db = require('../config/db');
+const { buscarPorUsuario, crearUsuario } = require('../models/usuarioModel');
 require('dotenv').config();
 
 const registro = async (req, res) => {
@@ -14,10 +15,7 @@ const registro = async (req, res) => {
   }
   try {
     const hash = await bcrypt.hash(password, 10);
-    await db.query(
-      'INSERT INTO usuarios (usuario, password, rol) VALUES (?, ?, ?)',
-      [usuario, hash, rol || 'usuario']
-    );
+    await crearUsuario(usuario, hash, rol || 'usuario');
     res.status(201).json({
       success: true,
       data: null,
@@ -49,15 +47,15 @@ const login = async (req, res) => {
     });
   }
   try {
-    const [rows] = await db.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
-    if (rows.length === 0) {
+    const user = await buscarPorUsuario(usuario);
+    if (!user) {
       return res.status(401).json({
         success: false,
         data: null,
         message: 'Credenciales incorrectas'
       });
     }
-    const esValido = await bcrypt.compare(password, rows[0].password);
+    const esValido = await bcrypt.compare(password, user.password);
     if (!esValido) {
       return res.status(401).json({
         success: false,
@@ -66,7 +64,7 @@ const login = async (req, res) => {
       });
     }
     const token = jwt.sign(
-      { id: rows[0].id, usuario: rows[0].usuario, rol: rows[0].rol },
+      { id: user.id, usuario: user.usuario, rol: user.rol },
       process.env.JWT_SECRET,
       { expiresIn: '8h' }
     );
@@ -74,9 +72,9 @@ const login = async (req, res) => {
       success: true,
       data: {
         token,
-        usuario: rows[0].usuario,
-        rol: rows[0].rol,
-        imagen: rows[0].imagen
+        usuario: user.usuario,
+        rol: user.rol,
+        imagen: user.imagen
       },
       message: 'Login exitoso'
     });

@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/estudiantes', require('./routes/estudiantes'));
 app.use('/api/profesores', require('./routes/profesores'));
-app.use('/api/cursos', require('./routes/cursos'));
+app.use('/api/cursos', require('./routes/cursos'));;
 
 // ruta de prueba
 app.get('/', (req, res) => {
