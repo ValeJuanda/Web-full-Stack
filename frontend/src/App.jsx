@@ -7,6 +7,8 @@ import Estudiantes from './pages/Estudiantes';
 import Profesores from './pages/Profesores';
 import Registro from './pages/Registro';
 import Cursos from './pages/Cursos';
+import Aulas from './pages/Aulas';
+import Asignaturas from './pages/Asignaturas';
 
 
 function App() {
@@ -28,10 +30,19 @@ function App() {
           <Route path="/profesores" element={
             <RutaProtegida><Profesores /></RutaProtegida>
           } />
-
           <Route path="/cursos" element={
             <RutaProtegida>
               <Cursos />
+            </RutaProtegida>
+          } />
+          <Route path="/aulas" element={
+            <RutaProtegida>
+              <Aulas />
+            </RutaProtegida>
+          } />
+          <Route path="/asignaturas" element={
+            <RutaProtegida>
+              <Asignaturas />
             </RutaProtegida>
           } />
 

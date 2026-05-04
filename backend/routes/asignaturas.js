@@ -1,0 +1,15 @@
+const express = require('express');
+const router = express.Router();
+
+const { listar, obtener, crear, actualizar, eliminar } = require('../controllers/asignaturaController');
+const { verificarToken } = require('../middleware/auth');
+
+router.use(verificarToken);
+
+router.get('/', listar);
+router.get('/:id', obtener);
+router.post('/', crear);
+router.put('/:id', actualizar);
+router.delete('/:id', eliminar);
+
+module.exports = router;
