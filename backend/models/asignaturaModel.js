@@ -4,8 +4,8 @@ const db = require('../config/db');
 const listarAsignaturas = async () => {
     const [rows] = await db.query(`
         SELECT a.*, 
-               CONCAT(p.nombre, ' ', p.apellido) as nombre_profesor,
-               c.nombre as nombre_curso
+            CONCAT(p.nombre, ' ', p.apellido) as nombre_profesor,
+            c.nombre as nombre_curso
         FROM Asignaturas a
         LEFT JOIN Profesor p ON a.id_profesor = p.id_profesor
         LEFT JOIN Curso c ON a.id_curso = c.id_curso

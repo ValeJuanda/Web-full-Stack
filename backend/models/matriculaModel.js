@@ -3,7 +3,7 @@ const db = require('../config/db');
 // Listar matrículas (sin joins que no existen)
 const listarMatriculas = async () => {
     const [rows] = await db.query(`
-        SELECT *
+        SELECT * 
         FROM matricula
         ORDER BY id_estudiante DESC
     `);
@@ -25,7 +25,7 @@ const obtenerMatricula = async (id_estudiante) => {
 const crearMatricula = async ({ id_estudiante, id_asignatura, nota, incidencias }) => {
     const [result] = await db.query(
         `INSERT INTO matricula (id_estudiante, id_asignatura, nota, incidencias)
-         VALUES (?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?)`,
         [id_estudiante, id_asignatura, nota || null, incidencias || null]
     );
 
@@ -36,8 +36,8 @@ const crearMatricula = async ({ id_estudiante, id_asignatura, nota, incidencias 
 const actualizarMatricula = async (id_estudiante, { id_asignatura, nota, incidencias }) => {
     const [result] = await db.query(
         `UPDATE matricula
-         SET id_asignatura = ?, nota = ?, incidencias = ?
-         WHERE id_estudiante = ?`,
+        SET id_asignatura = ?, nota = ?, incidencias = ?
+        WHERE id_estudiante = ?`,
         [id_asignatura, nota || null, incidencias || null, Number(id_estudiante)]
     );
 

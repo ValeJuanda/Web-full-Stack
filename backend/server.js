@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const app = express();
 
+//levanta servidor
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
